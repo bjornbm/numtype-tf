@@ -48,6 +48,18 @@ instances (and possibly additional unidentified GHC extensions).
 >            , FlexibleInstances
 > #-}
 
+> {- |
+>    Copyright  : Copyright (C) 2006-2009 Bjorn Buckwalter
+>    License    : BSD3
+>
+>    Maintainer : bjorn.buckwalter@gmail.com
+>    Stability  : Stable
+>    Portability: GHC only?
+>
+> Please refer to the literate Haskell code for documentation of both API
+> and implementation.
+> -}
+
 > module Numeric.NumType
 >   -- Basic classes (exported versions).
 >   ( NumType, PosType, NegType, NonZero
@@ -165,8 +177,8 @@ numbers.
 For convenience we create show instances for the defined NumTypes.
 
 > instance Show Zero where show _ = "NumType 0"
-> instance (PosTypeI n) => Show (Pos n) where show x = "NumType " ++ show (toNum x)
-> instance (NegTypeI n) => Show (Neg n) where show x = "NumType " ++ show (toNum x)
+> instance (PosTypeI n) => Show (Pos n) where show x = "NumType " ++ show (toNum x :: Integer)
+> instance (NegTypeI n) => Show (Neg n) where show x = "NumType " ++ show (toNum x :: Integer)
 
 
 = Negation, incrementing and decrementing =
@@ -367,15 +379,25 @@ but with the expected types).
 
 > zero :: Zero  -- ~ hZero
 > zero = undefined
+> pos1 :: Pos1
 > pos1 = incr zero
+> pos2 :: Pos2
 > pos2 = incr pos1
+> pos3 :: Pos3
 > pos3 = incr pos2
+> pos4 :: Pos4
 > pos4 = incr pos3
+> pos5 :: Pos5
 > pos5 = incr pos4
+> neg1 :: Neg1
 > neg1 = decr zero
+> neg2 :: Neg2
 > neg2 = decr neg1
+> neg3 :: Neg3
 > neg3 = decr neg2
+> neg4 :: Neg4
 > neg4 = decr neg3
+> neg5 :: Neg5
 > neg5 = decr neg4
 
 
