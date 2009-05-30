@@ -8,27 +8,27 @@ import qualified Prelude as P ((*), (/), (+), (-), negate)
 import Test.HUnit
 
 
--- Compares a type level unary function with a value level unary function 
+-- Compares a type level unary function with a value level unary function
 -- by converting 'NumType' to 'Integral'. This assumes that the 'toIntegral'
 -- function is solid.
-unaryTest :: (NumType n, NumType n', Num a) 
+unaryTest :: (NumType n, NumType n', Num a)
           => (n -> n') -> (a -> a) -> n -> Test
-unaryTest f f' x = TestCase $ assertEqual 
-    "Unary function Integral equivalence" 
+unaryTest f f' x = TestCase $ assertEqual
+    "Unary function Integral equivalence"
     (f' (toNum x)) (toNum (f x))
 
--- Compares a type level binary function with a value level binary function 
+-- Compares a type level binary function with a value level binary function
 -- by converting 'NumType' to 'Integral'. This assumes that the 'toIntegral'
 -- function is solid.
-binaryTest :: (NumType n, NumType n', NumType n'', Num a) 
+binaryTest :: (NumType n, NumType n', NumType n'', Num a)
            => (n -> n' -> n'') -> (a -> a -> a) -> n -> n' -> Test
-binaryTest f f' x y = TestCase $ assertEqual 
-    "Binary function Integral equivalence" 
+binaryTest f f' x y = TestCase $ assertEqual
+    "Binary function Integral equivalence"
     (f' (toNum x) (toNum y)) (toNum (f x y))
 
 -- Test that conversion to 'Integral' works as expected. This is sort of a
 -- prerequisite for the other tests.
-testAsIntegral = TestLabel "Integral equivalence tests" $ TestList 
+testAsIntegral = TestLabel "Integral equivalence tests" $ TestList
     [ TestCase $ -2 @=? toNum neg2
     , TestCase $ -1 @=? toNum neg1
     , TestCase $  0 @=? toNum zero
@@ -43,7 +43,7 @@ testIncrDecr = TestLabel "Increment and decrement tests" $ TestList
     , t zero
     , t pos1
     , t pos1
-    ] where 
+    ] where
         t x = TestList [ unaryTest incr (P.+ 1) x
                        , unaryTest decr (P.- 1) x
                        ]

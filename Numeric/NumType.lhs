@@ -179,7 +179,7 @@ leaving 'Zero' unchanged.
 
 > instance Negate Zero Zero
 > instance (PosTypeI a, NegTypeI b, Negate a b) => Negate (Pos a) (Neg b)
-> instance (NegTypeI a, PosTypeI b, Negate a b) => Negate (Neg a) (Pos b) 
+> instance (NegTypeI a, PosTypeI b, Negate a b) => Negate (Neg a) (Pos b)
 
 We define a type class for incrementing and decrementing NumTypes.
 The 'incr' and 'decr' functions correspond roughly to HList's 'hSucc'
@@ -277,7 +277,7 @@ positive. We recursively subtract the denominator from nominator
 while incrementing the result, until we reach the zero case.
 
 > instance ( Sum n' (Pos n'') (Pos n)
->          , Div n'' (Pos n') n''', PosTypeI n''') 
+>          , Div n'' (Pos n') n''', PosTypeI n''')
 >       => Div (Pos n) (Pos n') (Pos n''')
 
 Now we tackle cases with negative numbers involved. We trivially
