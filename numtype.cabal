@@ -2,7 +2,7 @@ Name:                numtype
 Version:             1.0
 License:             BSD3
 License-File:        LICENSE
-Copyright:           Bjorn Buckwalter 2008
+Copyright:           Bjorn Buckwalter 2009
 Author:              Bjorn Buckwalter
 Maintainer:          bjorn.buckwalter@gmail.com
 Stability:           stable
@@ -20,7 +20,8 @@ Description:
     representing physical dimensions (see the 'Dimensional' library).
     Requires GHC 6.6.1 or later.
 Category:            Math
+Build-Type:          Simple
 Build-Depends:       base
 Exposed-Modules:     Numeric.NumType
-Extra-source-files:  README
-
+Extra-source-files:  README,
+                     Numeric/NumTypeTests.hs
