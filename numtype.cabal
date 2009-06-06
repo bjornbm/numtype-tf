@@ -21,7 +21,7 @@ Description:
     Requires GHC 6.6.1 or later.
 Category:            Math
 Build-Type:          Simple
-Build-Depends:       base
+Build-Depends:       base < 5
 Exposed-Modules:     Numeric.NumType
 Extra-source-files:  README,
                      Numeric/NumTypeTests.hs
