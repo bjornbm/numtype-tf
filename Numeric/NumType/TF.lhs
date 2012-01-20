@@ -11,27 +11,29 @@ and basic operations (addition, subtraction, multiplication, division)
 on these. While functions are provided for the operations NumTypes
 exist solely at the type level and their only value is 'undefined'.
 
-There are similarities with the HNats of the HList library [1],
-which was indeed a source of inspiration. Occasionally references
-are made to the HNats. The main addition in this module is negative
-numbers.
+> {-There are similarities with the HNats of the HList library [1],
+> which was indeed a source of inspiration. Occasionally references
+> are made to the HNats. The main addition in this module is negative
+> numbers.
+> 
+> The practical size of the NumTypes is limited by the type checker
+> stack. If the NumTypes grow too large (which can happen quickly
+> with multiplication) an error message similar to the following will
+> be emitted:
+> 
+>     Context reduction stack overflow; size = 20
+>     Use -fcontext-stack=N to increase stack size to N
+> 
+> This situation could concievably be mitigated significantly by using
+> e.g. a binary representation of integers rather than Peano numbers.
+> 
+> Also, even if stack size is increased type-checker performance
+> quickly gets painfully slow. If you will be working with type-level
+> integers beyond (-20, 20) this module probably isn't for you. They
+> are, however, eminently suitably for applications such as representing
+> physical dimensions.
+> -}
 
-The practical size of the NumTypes is limited by the type checker
-stack. If the NumTypes grow too large (which can happen quickly
-with multiplication) an error message similar to the following will
-be emitted:
-
-    Context reduction stack overflow; size = 20
-    Use -fcontext-stack=N to increase stack size to N
-
-This situation could concievably be mitigated significantly by using
-e.g. a binary representation of integers rather than Peano numbers.
-
-Also, even if stack size is increased type-checker performance
-quickly gets painfully slow. If you will be working with type-level
-integers beyond (-20, 20) this module probably isn't for you. They
-are, however, eminently suitably for applications such as representing
-physical dimensions.
 
 
 = Preliminaries =
@@ -53,13 +55,39 @@ This module requires GHC 7.0 or later.
 >    Stability  : Stable
 >    Portability: GHC only?
 >
-> Please refer to the literate Haskell code for documentation of 
+> This Module provides unary type-level representations, hereafter
+> referred to as 'NumType's, of the (positive and negative) integers
+> and basic operations (addition, subtraction, multiplication, division)
+> on these. While functions are provided for the operations 'NumType's
+> exist solely at the type level and their only value is 'undefined'.
+> 
+> There are similarities with the HNats of the HList library [1],
+> which was indeed a source of inspiration. Occasionally references
+> are made to the HNats. The main addition in this module is negative
+> numbers.
+> 
+> The practical size of the 'NumType's is limited by the type checker
+> stack. If the 'NumType's grow too large (which can happen quickly
+> with multiplication) an error message similar to the following will
+> be emitted:
+> 
+> @
+> Context reduction stack overflow; size = 20
+> Use -fcontext-stack=N to increase stack size to N
+> @
+>
+> This situation could concievably be mitigated significantly by using
+> e.g. a binary representation of integers rather than Peano numbers.
+> 
+> Please refer to the literate Haskell code for a narrative of 
 > the implementation.
 > -}
 
 > module Numeric.NumType.TF
 >   -- Basic classes (exported versions).
->   ( NumType
+>   (
+>   -- * Type level integers
+>     NumType
 >   -- Data types (exported to avoid lengthy qualified types in complier
 >   -- error messages).
 >   , Z, S, N
@@ -145,13 +173,14 @@ negative number in the sense of the previously defined type classes.
 Next we define the "successor" type, here called 'S' (corresponding
 to HList's 'HSucc').
 
-> -- | Successor for building type level natural numbers.
+> -- | Successor type for building type level natural numbers.
 > data S n
 
 Finally we define the "negation" type used to represent negative
 numbers.
 
-> -- | Type level negation of natural numbers.
+> -- | Negation type, used to represent negative numbers by negating
+> -- type level naturals.
 > data N n
 
 The 'NumTypeI' instances restrict how 'Z', 'S', and 'N' may be combined
