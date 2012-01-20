@@ -40,6 +40,7 @@ This module requires GHC 7.0 or later.
 
 > {-# LANGUAGE UndecidableInstances
 >            , TypeFamilies
+>            , EmptyDataDecls
 >            , FlexibleInstances
 >            , ScopedTypeVariables
 > #-}
@@ -52,23 +53,25 @@ This module requires GHC 7.0 or later.
 >    Stability  : Stable
 >    Portability: GHC only?
 >
-> Please refer to the literate Haskell code for documentation of both API
-> and implementation.
+> Please refer to the literate Haskell code for documentation of 
+> the implementation.
 > -}
 
 > module Numeric.NumType.TF
 >   -- Basic classes (exported versions).
 >   ( NumType
->   -- Arithmetic type synonyms.
->   , Pred, Succ, Negate, Add, Sub, Div, Mul
->   -- Functions.
->   , toNum, incr, decr, negate, (+), (-), (*), (/)
->   -- Data types (exported to avoid qualified types in complier error
->   -- messages).
+>   -- Data types (exported to avoid lengthy qualified types in complier
+>   -- error messages).
 >   , Z, S, N
->   -- Type synonyms for convenience.
->   , Pos1, Pos2, Pos3, Pos4, Pos5, Neg1, Neg2, Neg3, Neg4, Neg5
->   -- Values for convenience.
+>   -- * Type level arithmetics
+>   , Pred, Succ, Negate, Add, Sub, Div, Mul
+>   -- * Type synonyms for convenience
+>   , Zero, Pos1, Pos2, Pos3, Pos4, Pos5, Neg1, Neg2, Neg3, Neg4, Neg5
+>   -- * Value level functions
+>   -- $functions
+>   , toNum, incr, decr, negate, (+), (-), (*), (/)
+>   -- * Values for convenience
+>   -- | For use with the value level functions.
 >   , zero, pos1, pos2, pos3, pos4, pos5, neg1, neg2, neg3, neg4, neg5
 >   ) where
 
@@ -88,8 +91,7 @@ class function 'toNum' that converts from the type-level to a
 value-level 'Num'.
 
 > class NumTypeI n where
->   -- | Convert to an instance of Num. This is how you get a value
->   -- level number from your NumTypeI.
+>   -- | Convert a type level integer to an instance of 'Prelude.Num'.
 >   toNum :: Num a => n -> a
 >   -- | Negation.
 >   type Negate n
@@ -123,6 +125,7 @@ We apply this trick to our NumTypeI class. In our case we will elect to
 append an "I" to the internal (non-exported) classes rather than
 appending an "E" to the exported classes.
 
+> -- | Class encompassing all valid type level integers.
 > class    (NumTypeI n) => NumType n
 > instance (NumTypeI n) => NumType n
 
@@ -136,17 +139,20 @@ with 'Zero', which we allow to be used as both a positive and a
 negative number in the sense of the previously defined type classes.
 'Z' corresponds to HList's 'HZero'.
 
-> data Z    -- ^ Zero.
+> -- | Type level zero.
+> data Z
 
 Next we define the "successor" type, here called 'S' (corresponding
 to HList's 'HSucc').
 
-> data S n  -- ^ Successor.
+> -- | Successor for building type level natural numbers.
+> data S n
 
 Finally we define the "negation" type used to represent negative
 numbers.
 
-> data N n  -- ^ Negates a natural number.
+> -- | Type level negation of natural numbers.
+> data N n
 
 The 'NumTypeI' instances restrict how 'Z', 'S', and 'N' may be combined
 to assemble 'NumType's, and the type synonym declarations demonstrate
@@ -194,7 +200,9 @@ For convenience we create show instances for the defined NumTypes.
 Now let us move on towards more complex arithmetic operations. We
 define type families for addition and subtraction of NumTypes.
 
+> -- | Addition (@a + b@).
 > type family Add a b  -- a + b.
+> -- | Subtraction (@a - b@).
 > type family Sub a b  -- a - b.
 
 Adding anything to Zero gives "anything".
@@ -222,6 +230,7 @@ this error message will be emitted:
     Context reduction stack overflow; size = 20
     Use -fcontext-stack=N to increase stack size to N
 
+> -- | Multiplication (@a * b@).
 > type family Mul a b        -- a * b.
 > type instance Mul Z n = Z  -- Trivially.
 
@@ -239,7 +248,7 @@ defining division only for positive (natural) numbers. This is
 necessary to ensure bad division terminates with a proper error
 instead of overflowing the context stack (more confusing).
 
-> type family DivP a b            -- n / m.
+> type family DivP n m            -- n / m.
 > type instance DivP Z (S n) = Z  -- Trivially.
 
 The recursive instance for division is quite complex and in fact I
@@ -250,6 +259,7 @@ do not recall how I derived it. But it works (I promise!).
 Now we can generalize division to negative numbers too, building on
 top of 'DivP'. A trivial but tedious exercise.
 
+> -- | Division (@a / b@).
 > type family Div a b            -- a / b.
 > type instance Div Z (N n) = Z  -- Mustn't allow “Div Z Z”!
 > type instance Div Z (S n) = Z
@@ -259,12 +269,14 @@ top of 'DivP'. A trivial but tedious exercise.
 > type instance Div (S n) (N n') = N (DivP (S n) n')
 
 
-= Functions =
+= Value level functions =
 
-Using the above type classes we define functions for various
-arithmetic operations. All functions are undefined and only operate
-on the type level. Their main contribution is that they facilitate
-NumType arithmetic without explicit (and tedious) type declarations.
+> {- $functions
+> Using the above type classes we define functions for various
+> arithmetic operations. All functions are undefined and only operate
+> on the type level. Their main contribution is that they facilitate
+> NumType arithmetic without explicit (and tedious) type declarations.
+> -}
 
 The main reason to collect all functions here is to keep the
 preceeding sections free from distraction.
@@ -303,6 +315,7 @@ preceeding sections free from distraction.
 Finally we define some type synonyms for the convenience of clients
 of the library.
 
+> type Zero = Z
 > type Pos1 = S Z
 > type Pos2 = S Pos1
 > type Pos3 = S Pos2
