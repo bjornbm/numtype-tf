@@ -1,8 +1,8 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 
-module Numeric.NumTypeTests where
+module Numeric.NumType.TFTests where
 
-import Numeric.NumType
+import Numeric.NumType.TF
 import Prelude hiding ((*), (/), (+), (-), negate)
 import qualified Prelude as P ((*), (/), (+), (-), negate)
 import Test.HUnit
