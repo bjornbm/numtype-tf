@@ -3,39 +3,6 @@ Bjorn Buckwalter, bjorn.buckwalter@gmail.com
 License: BSD3
 
 
-= Summary =
-
-This Module provides unary type-level representations, hereafter
-referred to as "NumTypes", of the (positive and negative) integers
-and basic operations (addition, subtraction, multiplication, division)
-on these. While functions are provided for the operations NumTypes
-exist solely at the type level and their only value is 'undefined'.
-
-> {-There are similarities with the HNats of the HList library [1],
-> which was indeed a source of inspiration. Occasionally references
-> are made to the HNats. The main addition in this module is negative
-> numbers.
-> 
-> The practical size of the NumTypes is limited by the type checker
-> stack. If the NumTypes grow too large (which can happen quickly
-> with multiplication) an error message similar to the following will
-> be emitted:
-> 
->     Context reduction stack overflow; size = 20
->     Use -fcontext-stack=N to increase stack size to N
-> 
-> This situation could concievably be mitigated significantly by using
-> e.g. a binary representation of integers rather than Peano numbers.
-> 
-> Also, even if stack size is increased type-checker performance
-> quickly gets painfully slow. If you will be working with type-level
-> integers beyond (-20, 20) this module probably isn't for you. They
-> are, however, eminently suitably for applications such as representing
-> physical dimensions.
-> -}
-
-
-
 = Preliminaries =
 
 This module requires GHC 7.0 or later.
@@ -46,6 +13,9 @@ This module requires GHC 7.0 or later.
 >            , FlexibleInstances
 >            , ScopedTypeVariables
 > #-}
+
+
+= Summary =
 
 > {- |
 >    Copyright  : Copyright (C) 2006-2012 Bjorn Buckwalter
@@ -61,7 +31,7 @@ This module requires GHC 7.0 or later.
 > on these. While functions are provided for the operations 'NumType's
 > exist solely at the type level and their only value is 'undefined'.
 > 
-> There are similarities with the HNats of the HList library [1],
+> There are similarities with the HNats of the HList library,
 > which was indeed a source of inspiration. Occasionally references
 > are made to the HNats. The main addition in this module is negative
 > numbers.
@@ -81,6 +51,7 @@ This module requires GHC 7.0 or later.
 > 
 > Please refer to the literate Haskell code for a narrative of 
 > the implementation.
+>
 > -}
 
 > module Numeric.NumType.TF
@@ -156,11 +127,6 @@ appending an "E" to the exported classes.
 > -- | Class encompassing all valid type level integers.
 > class    (NumTypeI n) => NumType n
 > instance (NumTypeI n) => NumType n
-
-We do not have to do this for our other classes. They have the above
-classes in their constraints and since the instances are complete
-(not proven) a new instance cannot be defined (actually used in the
-case of GHC) without overlapping instances.
 
 Now we Define the data types used to represent integers. We begin
 with 'Zero', which we allow to be used as both a positive and a
@@ -387,4 +353,3 @@ but with the expected types).
 
 [1] http://homepages.cwi.nl/~ralf/HList/
 [2] http://okmij.org/ftp/Computation/resource-aware-prog/BinaryNumber.hs
-
