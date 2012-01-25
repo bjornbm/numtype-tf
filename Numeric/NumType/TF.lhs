@@ -54,13 +54,12 @@ This module requires GHC 7.0 or later.
 >
 > -}
 
-> module Numeric.NumType.TF
->   -- Basic classes (exported versions).
->   (
+> module Numeric.NumType.TF (
 >   -- * Type level integers
 >     NumType
->   -- Data types (exported to avoid lengthy qualified types in complier
->   -- error messages).
+>   -- * Data types
+>   -- | These are exported to avoid lengthy qualified types in complier
+>   -- error messages.
 >   , Z, S, N
 >   -- * Type level arithmetics
 >   , Pred, Succ, Negate, Add, Sub, Div, Mul
@@ -90,14 +89,14 @@ class function 'toNum' that converts from the type-level to a
 value-level 'Num'.
 
 > class NumTypeI n where
->   -- | Convert a type level integer to an instance of 'Prelude.Num'.
->   toNum :: Num a => n -> a
 >   -- | Negation.
 >   type Negate n
 >   -- | Predecessor.
 >   type Pred n
 >   -- | Successor.
 >   type Succ n
+>   -- | Convert a type level integer to an instance of 'Prelude.Num'.
+>   toNum :: Num a => n -> a
 
 
 Now we use a trick from Oleg Kiselyov and Chung-chieh Shan [2]:
@@ -267,7 +266,7 @@ top of 'DivP'. A trivial but tedious exercise.
 = Value level functions =
 
 > {- $functions
-> Using the above type classes we define functions for various
+> Using the above type families we define functions for various
 > arithmetic operations. All functions are undefined and only operate
 > on the type level. Their main contribution is that they facilitate
 > NumType arithmetic without explicit (and tedious) type declarations.
