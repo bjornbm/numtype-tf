@@ -243,12 +243,14 @@ necessary to ensure bad division terminates with a proper error
 instead of overflowing the context stack (more confusing).
 
 > type family DivP n m            -- n / m.
+
+The instances for division is based on the identities:
+
+    0 / y = 0,               for y >= 1.
+    x / y = (x - y) / y + 1, for x >= y >= 1.
+
 > type instance DivP Z (S n) = Z  -- Trivially.
-
-The recursive instance for division is quite complex and in fact I
-do not recall how I derived it. But it works (I promise!).
-
-> type instance DivP (S n) (S n') = S (DivP (Pred (Sub (S n) n')) (S n'))  -- Oh my!
+> type instance DivP (S n) (S m) = S (DivP (Sub (S n) (S m)) (S m))  -- Oh my!
 
 Now we can generalize division to negative numbers too, building on
 top of 'DivP'. A trivial but tedious exercise.
