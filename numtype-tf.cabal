@@ -5,7 +5,7 @@ License-File:        LICENSE
 Copyright:           Bjorn Buckwalter 2012
 Author:              Bjorn Buckwalter
 Maintainer:          bjorn.buckwalter@gmail.com
-Stability:           stable
+Stability:           experimental
 Homepage:            http://dimensional.googlecode.com/
 Synopsis:            Type-level (low cardinality) integers, implemented
                      using type families.
