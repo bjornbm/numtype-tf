@@ -12,6 +12,7 @@ This module requires GHC 7.0 or later.
 >            , EmptyDataDecls
 >            , FlexibleInstances
 >            , ScopedTypeVariables
+>            , DeriveDataTypeable
 > #-}
 
 
@@ -75,6 +76,7 @@ This module requires GHC 7.0 or later.
 
 > import Prelude hiding ((*), (/), (+), (-), negate)
 > import qualified Prelude ((+), negate)
+> import Data.Typeable (Typeable)
 
 Use the same fixity for operators as the Prelude.
 
@@ -133,20 +135,20 @@ negative number in the sense of the previously defined type classes.
 'Z' corresponds to HList's 'HZero'.
 
 > -- | Type level zero.
-> data Z
+> data Z deriving Typeable
 
 Next we define the "successor" type, here called 'S' (corresponding
 to HList's 'HSucc').
 
 > -- | Successor type for building type level natural numbers.
-> data S n
+> data S n deriving Typeable
 
 Finally we define the "negation" type used to represent negative
 numbers.
 
 > -- | Negation type, used to represent negative numbers by negating
 > -- type level naturals.
-> data N n
+> data N n deriving Typeable
 
 The 'NumTypeI' instances restrict how 'Z', 'S', and 'N' may be combined
 to assemble 'NumType's, and the type synonym declarations demonstrate
