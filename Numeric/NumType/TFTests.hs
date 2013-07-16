@@ -11,7 +11,7 @@ import Test.HUnit
 -- Compares a type level unary function with a value level unary function
 -- by converting 'NumType' to 'Integral'. This assumes that the 'toIntegral'
 -- function is solid.
-unaryTest :: (NumType n, NumType n', Num a)
+unaryTest :: (NumType n, NumType n', Num a, Eq a, Show a)
           => (n -> n') -> (a -> a) -> n -> Test
 unaryTest f f' x = TestCase $ assertEqual
     "Unary function Integral equivalence"
@@ -20,7 +20,7 @@ unaryTest f f' x = TestCase $ assertEqual
 -- Compares a type level binary function with a value level binary function
 -- by converting 'NumType' to 'Integral'. This assumes that the 'toIntegral'
 -- function is solid.
-binaryTest :: (NumType n, NumType n', NumType n'', Num a)
+binaryTest :: (NumType n, NumType n', NumType n'', Num a, Eq a, Show a)
            => (n -> n' -> n'') -> (a -> a -> a) -> n -> n' -> Test
 binaryTest f f' x y = TestCase $ assertEqual
     "Binary function Integral equivalence"
