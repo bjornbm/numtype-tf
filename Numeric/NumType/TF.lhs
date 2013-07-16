@@ -212,7 +212,7 @@ type is Zero.
 > type instance Add (S n) n' = Add n (Succ n')
 > type instance Add (N n) n' = Add (Succ (N n)) (Pred n')
 
-Substitution is defined trivially with addition and negation.
+Subtraction is defined trivially with addition and negation.
 
 > type instance Sub a b = Add a (Negate b)
 
