@@ -204,6 +204,7 @@ define type families for addition and subtraction of NumTypes.
 Adding anything to Zero gives "anything".
 
 > type instance Add Z n = n
+> type instance Add n Z = n
 
 When adding to a non-Zero number our strategy is to "transfer" type
 constructors from the first type to the second type until the first
