@@ -4,8 +4,7 @@ GHC 7.8.1 compatibility fix.
 
 *  Remove an overlapping `Add n Z` instance.
 
-I don't expect this to break any existing code but am updating
-the major version number just in case.
+I don't expect this to break any existing code.
 
 
 1.1 (2013-07)
