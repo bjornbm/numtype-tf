@@ -17,6 +17,12 @@ unaryTest f f' x = TestCase $ assertEqual
     "Unary function Integral equivalence"
     (f' (toNum x)) (toNum (f x))
 
+-- | 'unaryTest' with @Num a@ fixed to @Integer@. This is needed by
+-- 'testIncrDecr'.
+unaryTest' :: (NumType n, NumType n')
+           => (n -> n') -> (Integer -> Integer) -> n -> Test
+unaryTest' = unaryTest
+
 -- Compares a type level binary function with a value level binary function
 -- by converting 'NumType' to 'Integral'. This assumes that the 'toIntegral'
 -- function is solid.
@@ -44,8 +50,8 @@ testIncrDecr = TestLabel "Increment and decrement tests" $ TestList
     , t pos1
     , t pos1
     ] where
-        t x = TestList [ unaryTest incr (P.+ 1) x
-                       , unaryTest decr (P.- 1) x
+        t x = TestList [ unaryTest' incr (P.+ 1) x
+                       , unaryTest' decr (P.- 1) x
                        ]
 
 -- Test negation.
